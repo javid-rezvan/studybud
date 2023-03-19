@@ -22,9 +22,10 @@
         <h3>{{rooms.count}} Rooms Available</h3>
         <hr>
         <div>
+            <a href="{% url 'create-room' %}"><h3>Create Room</h3></a>
             {% for room in rooms %}
              <span>@{{room.host.username}}</span>
-             <h5>{{room.id}} -- <a href="">{{room.name}}</a></h5>
+             <h5>{{room.id}} -- <a href="{% url 'room' room.id %}">{{room.name}}</a></h5>
              <small>{{room.topic.name}}</small>
              <hr>
             {% endfor %}
