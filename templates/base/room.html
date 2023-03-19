@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+    .room-container{
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+    }
+</style>
+<div class="room-container">
+    <div>
+        <h1>{{room.name}}</h1>
+        <small>{{room.description}}</small>
+        <h3>Conversation</h3>
+        <hr>
+    {% for message in room_messages %}
+        <h5>@{{message.user}}  {{message.created|timesince}}</h5>
+        <small>{{message.body}}</small>
+        <hr>
+    {% endfor %}
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="text" name="body" placeholder="Enter your messages">
+    </form>
+    </div>
+    <div>
+        <h1>Participations</h1>
+        <hr>
+        {% for user in  participants %}
+        <div>
+            @{{user.username}}
+        </div>   
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
