@@ -99,3 +99,10 @@ def registerPage(request):
         
     context={'form':form}
     return render(request,'base/login_register.html',context)
+
+def topics(request):
+    q=request.GET.get('q') if request.GET.get('q')!= None else ''
+    
+    topics=Topic.objects.filter(Q(name__icontains =q))
+    context={'topics':topics}
+    return render(request,'base/topics.html',context)
