@@ -1,0 +1,52 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+    .home-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+</style>
+
+<div class="home-container">
+    <div>
+        <h3>Browse Topic</h3>
+        <hr>
+        {% for topic in topics %}
+        <div>
+            <a href="{% url 'home' %}?q={{topic.name}}"><h5> {{topic.name}}</h5></a>
+        </div>
+        {% endfor %}
+    </div>
+  
+    <div>
+        <h3>{{rooms.count}} Rooms Available</h3>
+        <hr>
+        <div>
+            <a href="{% url 'create-room' %}"><h3>Create Room</h3></a>
+            {% for room in rooms %}
+            <a href="{% url 'update-room' room.id %}">Edit</a>
+            <a href="{% url 'delete-room' room.id %}">Delete</a>
+             <span>@{{room.host.username}}</span>    
+             <h5>{{room.id}} -- <a href="{% url 'room' room.id %}">{{room.name}}</a></h5>
+             <small>{{room.topic.name}}</small>
+             <hr>
+            {% endfor %}
+        </div>
+       
+    </div>
+    
+    <div>
+        <h3>Recent Activity</h3>
+        <hr>
+        {% for message in room_messages%}
+        <div>
+            <span>@{{message.user.username}} {{message.created|timesince}}</span>
+           
+            <h5>replied To :{{message.room.name}}</h5>
+            <small>{{message.body}}</small>
+            <hr>
+        </div>
+        {% endfor %}
+    </div>   
+</div>
+{% endblock content %}
