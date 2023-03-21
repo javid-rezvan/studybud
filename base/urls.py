@@ -11,6 +11,7 @@ urlpatterns = [
     path('login/',views.loginPage,name='login'),
     path('logout/',views.logouUser,name='logout'),
     path('register/',views.registerPage,name='register'),
-    path('topics/',views.topics,name='topics')
+    path('topics/',views.topics,name='topics'),
+    path('delete-message/<str:pk>/',views.deleteMessage,name='delete-message')
     
 ]

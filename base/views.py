@@ -106,3 +106,11 @@ def topics(request):
     topics=Topic.objects.filter(Q(name__icontains =q))
     context={'topics':topics}
     return render(request,'base/topics.html',context)
+
+def deleteMessage(request,pk):
+    message=Message.objects.get(id=pk)
+    if request.method=='POST':
+        message.delete()
+        return redirect('room',pk=message.room.id)
+    context={'obj':message}
+    return render(request,'base/delete.html',context)
