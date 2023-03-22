@@ -5,7 +5,7 @@
     {% for message in room_messages %}
     <div class="activities__box">
       <div class="activities__boxHeader roomListRoom__header">
-        <a href="profile.html" class="roomListRoom__author">
+        <a href="{% url 'profile'  message.user.id %}" class="roomListRoom__author">
           <div class="avatar avatar--small">
             <img src="https://randomuser.me/api/portraits/women/11.jpg" />
           </div>
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="activities__boxContent">
-        <p>replied to post “<a href="room.html">{{message.room.name}}</a>”</p>
+        <p>replied to post “<a href="{% url 'room' message.room.id %}">{{message.room.name}}</a>”</p>
         <div class="activities__boxRoomContent">
           {{message.body}}
         </div>
