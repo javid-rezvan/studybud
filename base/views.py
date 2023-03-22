@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 def home(request):
     q=request.GET.get('q') if request.GET.get('q')!=None else ''
@@ -114,3 +115,14 @@ def deleteMessage(request,pk):
         return redirect('room',pk=message.room.id)
     context={'obj':message}
     return render(request,'base/delete.html',context)
+
+def userProfile(request,pk):
+    user=User.objects.get(id=pk)
+    q=request.GET.get('q') if request.GET.get('q')!=None else ''
+    
+    topics=Topic.objects.filter(room__host__username=user.username)
+    rooms=Room.objects.filter(host__username=user.username)
+    room_messages=Message.objects.filter(room__host__username=user.username)
+    
+    context={'topics':topics,'rooms':rooms,'room_messages':room_messages,'user':user}
+    return render(request,'base/profile.html',context)
