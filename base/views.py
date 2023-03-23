@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from . models import Room,Topic,Message,User
 from  django.db.models import Q
-from  .forms import RoomForm
+from  .forms import RoomForm,UserForm
 from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -76,12 +76,12 @@ def deleteRoom(request,pk):
 def loginPage(request):
     page='login'
     if request.method== 'POST':
-        username=request.POST.get('username')
+        email=request.POST.get('username')
         password=request.POST.get('password')
         
         try:
-            user=User.objects.get(username=username)
-            user=authenticate(request,username=username,password=password)
+            user=User.objects.get(email=email)
+            user=authenticate(request,username=email,password=password)
             if user is not None:
                 login(request,user)
                 return redirect('home')
@@ -127,11 +127,26 @@ def deleteMessage(request,pk):
 
 def userProfile(request,pk):
     user=User.objects.get(id=pk)
-    q=request.GET.get('q') if request.GET.get('q')!=None else ''
-    
     topics=Topic.objects.filter(room__host__username=user.username)
     rooms=Room.objects.filter(host__username=user.username)
     room_messages=Message.objects.filter(room__host__username=user.username)
     
+    # rooms=user.room_set.all()
+    # room_messages=user.message_set.all()
+    # topics=Topic.objects.all()
+    
     context={'topics':topics,'rooms':rooms,'room_messages':room_messages,'user':user}
     return render(request,'base/profile.html',context)
+
+
+def updateUser(request):
+    user=request.user
+    form=UserForm(instance=user)
+    if request.method=='POST':
+       form=UserForm(request.POST,request.FILES,instance=user)
+       if form.is_valid():
+           form.save()
+           return redirect('profile',pk=user.id)
+        
+    context={'form':form}
+    return render(request,'base/edit-user.html',context)
