@@ -1,10 +1,9 @@
 from django.shortcuts import render,redirect
 from . models import Room,Topic,Message,User
 from  django.db.models import Q
-from  .forms import RoomForm,UserForm
+from  .forms import RoomForm,UserForm,myUserCreationForm
 from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
 
 
 def home(request):
@@ -98,15 +97,17 @@ def logouUser(request):
     return redirect('home')
 
 def registerPage(request):
-    form=UserCreationForm()
+    form=myUserCreationForm()
     if request.method=='POST':
-        form=UserCreationForm(request.POST)
-        if form.is_valid():
-            user=form.save(commit=False)
-            user.save()
-            login(request,user)
-            return redirect('home')
-        
+       form=myUserCreationForm(request.POST) 
+       if form.is_valid():
+          user=form.save(commit=False)
+          user.save()
+          login(request,user)
+          return redirect('home') 
+       else:
+          messages.error(request,'An error occured during registration')    
+            
     context={'form':form}
     return render(request,'base/login_register.html',context)
 
