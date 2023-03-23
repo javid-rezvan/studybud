@@ -15,5 +15,4 @@ urlpatterns = [
     path('delete-message/<str:pk>/',views.deleteMessage,name='delete-message'),
     path('user-profile/<str:pk>/',views.userProfile,name='profile'),
    
-    
 ]
