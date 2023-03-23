@@ -1,12 +1,11 @@
 from django.shortcuts import render,redirect
-from . models import Room,Topic,Message
+from . models import Room,Topic,Message,User
 from  django.db.models import Q
 from  .forms import RoomForm
-from django.contrib.auth.models import User
 from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+
 
 def home(request):
     q=request.GET.get('q') if request.GET.get('q')!=None else ''
