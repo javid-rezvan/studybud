@@ -82,7 +82,7 @@
               </div>
               <div class="room__hosted">
                 <p>Hosted By</p>
-                <a href="#" class="room__author">
+                <a href="{% url 'profile' room.host.id %}" class="room__author">
                   <div class="avatar avatar--small">
                     <img src="{{room.host.avatar.url}}" />
                   </div>
