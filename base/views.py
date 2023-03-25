@@ -4,6 +4,7 @@ from  django.db.models import Q
 from  .forms import RoomForm,UserForm,myUserCreationForm
 from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -30,6 +31,7 @@ def room(request,pk):
     context={'room':room,'room_messages':room_messages,'participants':participants}
     return render(request,'base/room.html',context)
 
+@login_required(login_url='login')
 def createRoom(request):
     topics=Topic.objects.all()
     form=RoomForm()
